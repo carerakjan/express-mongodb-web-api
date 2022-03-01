@@ -1,0 +1,27 @@
+# https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html#composing-http-requests
+
+GET http://localhost:3000/notifications/
+
+###
+
+GET http://localhost:3000/notifications/621d2fe57ac606bfc2ec92cd
+
+###
+POST http://localhost:3000/notifications
+Content-Type: application/json
+
+{
+    "notificationType": "notification",
+    "showNotification": true
+}
+
+###
+DELETE http://localhost:3000/notifications/621d30737ac606bfc2ec92d4
+
+###
+PATCH http://localhost:3000/notifications/621d2fe57ac606bfc2ec92cd
+Content-Type: application/json
+
+{
+    "title": "New message!!"
+}
