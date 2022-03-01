@@ -1,0 +1,27 @@
+version: "3"
+
+volumes:
+  mongodb_volume:
+
+services:
+  web_api:
+    image: bohdanh01/express-mongodb-web-api
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+    environment:
+      - TZ=Europe/Kiev
+      - MONGO_DB_ADDR=mongo
+      - MONGO_DB_PORT=27017
+      - RUN_INTO_CONTAINER=true
+
+  mongo:
+    image: mvertes/alpine-mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_volume:/data/db
+    restart: always
+
