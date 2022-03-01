@@ -2,11 +2,20 @@ const express = require('express');
 const getMessage = require('../utils/getMessage');
 const modelFactory = require('../utils/modelFactory');
 const createConnection = require('../utils/createConnection');
+const parseSchema = require('./parseSchema');
 
 module.exports = ({ model, connection }) => {
     const router = express.Router();
-    const definedModel = modelFactory(model);
+    const definedModel = modelFactory({ model, schema: model.toLowerCase() });
     const Model = definedModel(createConnection(connection));
+
+    const getSchema = (req, res, next) => {
+        if (req.method === 'GET' && req.params.id === 'schema') {
+            res.json(parseSchema(Model.schema));
+        } else {
+            next();
+        }
+    }
 
     const getModelById = async (req, res, next) => {
         let notification;
@@ -25,6 +34,11 @@ module.exports = ({ model, connection }) => {
         next();
     }
 
+    const middlewares = [
+        getSchema,
+        getModelById
+    ];
+
     // Getting all
     router.get('/', async (req, res) => {
         try {
@@ -37,7 +51,7 @@ module.exports = ({ model, connection }) => {
     })
 
     // Getting one
-    router.get('/:id', getModelById, (req, res) => {
+    router.get('/:id', middlewares, (req, res) => {
         res.json(res.model);
     })
 
@@ -55,7 +69,7 @@ module.exports = ({ model, connection }) => {
     })
 
     // Updating one
-    router.patch('/:id', getModelById, async (req, res) => {
+    router.patch('/:id', middlewares, async (req, res) => {
         Object.entries(req.body).forEach(([key, val]) => {
             res.model[key] = val;
         });
@@ -69,7 +83,7 @@ module.exports = ({ model, connection }) => {
     })
 
     // Deleting one
-    router.delete('/:id', getModelById, async (req, res) => {
+    router.delete('/:id', middlewares, async (req, res) => {
         try {
             await res.model.remove();
             res.json(getMessage({ message: 'Deleted record: ' + req.params.id }));

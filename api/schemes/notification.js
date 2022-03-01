@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-const notificationSchema = new mongoose.Schema({
+module.exports = {
     showNotification: {
         type: Boolean,
         required: true
@@ -24,11 +22,7 @@ const notificationSchema = new mongoose.Schema({
     },
     dateTime: {
         type: Date,
-        required: true,
+        required: false,
         default: Date.now
     }
-});
-
-module.exports = (connection) => {
-    return connection.model('Notification', notificationSchema);
-}
+};

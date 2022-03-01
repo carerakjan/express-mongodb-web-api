@@ -2,7 +2,7 @@ const createRouter = require('./utils/createRouter');
 
 module.exports = {
     '/notifications': createRouter({
-        model: 'notification',
+        model: 'Notification',
         connection: {
             dbName: 'notifications'
         }
