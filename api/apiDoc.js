@@ -11,7 +11,10 @@ try {
             .map(f => path.basename(f, '.js'))
             .map(f => [
                 f[0].toUpperCase() + f.slice(1),
-                parseSchema(require(`./schemes/${f}`))
+                {
+                    apiRoute: `/${f}s`,
+                    schema: parseSchema(require(`./schemes/${f}`))
+                }
             ])
     )
 } catch (e) {
