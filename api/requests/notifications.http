@@ -27,4 +27,4 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/notifications/schema
+GET http://localhost:3000/doc

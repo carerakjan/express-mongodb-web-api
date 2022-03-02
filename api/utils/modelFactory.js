@@ -1,5 +1,3 @@
-const mongoose = require('mongoose');
-
 module.exports = ({ model, schema }) => (connection) => {
-    return connection.model(model, new mongoose.Schema(require(`../schemes/${schema}`)))
+    return connection.model(model, require(`../schemes/${schema}`))
 }

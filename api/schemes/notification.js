@@ -1,4 +1,6 @@
-module.exports = {
+const mongoose = require('mongoose');
+
+module.exports = new mongoose.Schema({
     showNotification: {
         type: Boolean,
         required: true
@@ -25,4 +27,4 @@ module.exports = {
         required: false,
         default: Date.now
     }
-};
+});

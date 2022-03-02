@@ -1,5 +1,5 @@
 module.exports = (schema) => Object.values(schema.paths).map(
-    ({ path, instance, isRequired }) => path.startsWith('_')
+    ({ path, instance, isRequired, defaultValue }) => path.startsWith('_')
         ? null
-        : ({ path, instance, isRequired })
+        : ({ path, instance, isRequired, ...(defaultValue && { defaultValue }) })
 ).filter(Boolean);
