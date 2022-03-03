@@ -33,7 +33,11 @@ services:
     restart: always
     depends_on:
       - web_api
+      - mongo
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      #### The guide of create SSL cert is here https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-20-04-1
+      - ./nginx/certs/nginx-selfsigned.key:/etc/ssl/private/nginx-selfsigned.key
+      - ./nginx/certs/nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt
     ports:
-      - 80:80
+      - 443:443
