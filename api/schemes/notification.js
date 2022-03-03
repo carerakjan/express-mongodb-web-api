@@ -21,10 +21,7 @@ module.exports = new mongoose.Schema({
     articleId: {
         type: String,
         required: false
-    },
-    dateTime: {
-        type: Date,
-        required: false,
-        default: Date.now
     }
+}, {
+    timestamps: true
 });

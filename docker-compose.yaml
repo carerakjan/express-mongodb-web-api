@@ -6,11 +6,12 @@ volumes:
 services:
   web_api:
     image: bohdanh01/express-mongodb-web-api
+    container_name: web_api
     restart: always
-    ports:
-      - 3000:3000
     depends_on:
       - mongo
+    ports:
+      - 3000:3000
     environment:
       - TZ=Europe/Kiev
       - MONGO_DB_ADDR=mongo
@@ -19,9 +20,20 @@ services:
 
   mongo:
     image: mvertes/alpine-mongo
-    ports:
-      - 27017:27017
+    container_name: mongo
+    restart: always
     volumes:
       - mongodb_volume:/data/db
-    restart: always
+    ports:
+      - 27017:27017
 
+  nginx:
+    image: nginx:1.17.10-alpine
+    container_name: nginx
+    restart: always
+    depends_on:
+      - web_api
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
